@@ -1,9 +1,8 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
 
-const CustomButton = ({text}) => {
+const CustomButton = ({text, onClick}) => {
   const ColorButton = styled(Button)(({ theme }) => ({
     color: "white",
     width: "100%",
@@ -13,7 +12,7 @@ const CustomButton = ({text}) => {
     },
   }));
   return (
-    <Box>
+    <Box onClick={onClick}>
       <ColorButton variant="contained">{text}</ColorButton>
     </Box>
   );
