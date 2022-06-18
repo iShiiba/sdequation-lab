@@ -11,5 +11,9 @@ connection();
 app.use(express.json())
 app.use(cors())
 
+const userRoute = require('./routes/users')
+
+app.use('/users',userRoute)
+
 const port = process.env.PORT || 8080
 app.listen(port, console.log(`Listening on port ${port}...`))
