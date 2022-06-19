@@ -30,14 +30,24 @@ const Header = ({ text }) => {
         }}
       >
         <Box
-          onClick={() => console.log("weon")}
+          onClick={() => navigate("/perfil")}
           sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
         >
           Nome
         </Box>
-        <Box sx={{ color: "#58060A", fontSize: "24px" }}>Exercícios</Box>
-        <Box sx={{ color: "#58060A", fontSize: "24px" }}>Histórico</Box>
-        <Box sx={{ color: "#58060A", fontSize: "24px" }}>Sair</Box>
+        <Box
+          onClick={() => navigate("/exercicios")}
+          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}
+        >
+          Exercícios
+        </Box>
+        <Box
+          onClick={() => navigate("/historico")}
+          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}
+        >
+          Histórico
+        </Box>
+        <Box sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}>Sair</Box>
       </Box>
     </Box>
   );
