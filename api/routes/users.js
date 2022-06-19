@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {User, validate} = require("../models/user");
 const bcrypt = require("bcrypt")
+const Summary = require('../models/summary')
 
 router.post("/", async(req,res)=> {
     try{
@@ -17,6 +18,7 @@ router.post("/", async(req,res)=> {
         const hashPassword = await bcrypt.hash(req.body.password,salt)
 
         await new User({...req.body, password: hashPassword}).save();
+        await new Summary({name: req.body.name, email: req.body.email, right: 0, wrong: 0}).save();
         res.status(201).send({message: "Usuário criado com sucesso"})
     }catch(error){
         console.log(error)
