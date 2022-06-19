@@ -26,4 +26,28 @@ router.post("/", async(req,res)=> {
     }
 })
 
+router.put('/', async (req, res) => {
+    const { name, email, password } = req.body
+
+    if (!name || !email || !password ) return res.status(400).send({ error: 'Houve um erro no update, dados insuficientes' })
+    
+    try {
+        const salt = await bcrypt.genSalt(Number(process.env.SALT));
+        const hashPassword = await bcrypt.hash(password,salt)
+
+
+        const updatedUser = {name: name, email: email, password: hashPassword }
+        await User.findOneAndUpdate({email: email}, updatedUser)
+
+        const userSummary = await Summary.findOne({email: email})
+        const newSummary = {...userSummary._doc,name: name}
+        await Summary.findOneAndUpdate({email:email},newSummary)
+
+        res.status(204).send({ message: 'Usuário atualizado com sucesso' })
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({message: "Erro Interno"})
+    }
+})
+
 module.exports = router;
