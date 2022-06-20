@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomButton from "./../../Components/CustomButton";
-import {useDispatch} from "react-redux";
-import { login } from "../../Redux/AuthSlice";
+import { useDispatch } from "react-redux";
+import { login,SaveEmail } from "../../Redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
 
 const CssTextField = styled(TextField)({
@@ -41,8 +41,14 @@ const Login = () => {
 
   const authLogin = async () => {
     const response = await dispatch(login({ email, password }));
-    if (!response.payload.failed) {
-      navigate("");
+    await dispatch(SaveEmail({email}));
+    if (!response.payload?.failed) {
+      if(email==="adm@adm.adm"&&password==="adm123456"){
+        navigate("/historicoadm");
+      }else{
+        navigate("/exercicios");
+      }
+     
     } else {
     }
   };
@@ -104,12 +110,23 @@ const Login = () => {
             />
           </Box>
         </Box>
-        <Box sx={{ width: "30%", marginTop: "30px" }}>
-          <CustomButton text="Entrar" onClick={authLogin} />
+        <Box sx={{ display: "flex", justifyContent: "space-around", gap:"30px" }}>
+          <Box sx={{ minWidth: "50%", marginTop: "30px" }}>
+            <CustomButton
+              text="Cadastro"
+              onClick={() => {
+                navigate("/cadastro");
+              }}
+            />
+          </Box>
+          <Box sx={{ minWidth: "50%", marginTop: "30px" }}>
+            <CustomButton text="Entrar" onClick={authLogin} />
+          </Box>
         </Box>
       </Box>
       <Box sx={{ height: "100%", width: "100%", backgroundColor: "pink" }}>
-        <img style={{ height: "100vh", width: "100vw"}}
+        <img
+          style={{ height: "100vh", width: "100vw" }}
           // className={style.image}
           src="../images/unknown.png"
           alt="image"

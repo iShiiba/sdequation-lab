@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Header from "./../../Components/Header";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "./../../Components/CustomButton";
 import { styled } from "@mui/material/styles";
 import { Box, TextField } from "@mui/material";
-import CustomButton from "./../../Components/CustomButton";
-import { useSelector } from "react-redux";
+import { SaveEmail } from "../../Redux/AuthSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const CssTextField = styled(TextField)({
@@ -32,36 +34,23 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-
-const Historico = () => {
-  const [equation, setEquation] = useState("x²+10x-3=0");
-  const [right, setRight] = useState(false);
-  const [wrong, setWrong] = useState(false);
-  const [difficulty, setDifficulty] = useState("facil");
+const HistoricoAdm = () => {
+  const [name, setName] = useState("Gustavo Moraes");
+  const [right, setRight] = useState(15);
+  const [wrong, setWrong] = useState(20);
   const [list, setList] = useState([]);
 
-  const getEmail = useSelector((state) => state.auth.email);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(
-        `http://localhost:3003/exercises/${getEmail}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setList(data.exerciseList);
-    };
-
     const getScore = async () => {
-      const response = await fetch(`http://localhost:3003/summary/${getEmail}`);
+      const response = await fetch(`http://localhost:3003/summary`);
       const data = await response.json();
-      const userRight = data.summaryInfo.right;
-      const userWrong = data.summaryInfo.wrong;
-      setRight(userRight);
-      setWrong(userWrong);
+      const lista = data.summaryList;
+      console.log(lista);
+      setList(lista);
     };
-
-    getData();
     getScore();
   }, []);
 
@@ -76,23 +65,8 @@ const Historico = () => {
         alignItems: "center",
       }}
     >
-      <Header />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          maxWidth: "250px",
-          minWidth: "250px",
-          height: "5%",
-          marginTop: "20px",
-        }}
-      >
-        <Box sx={{ color: "green", fontWeight: "bold", fontSize: "20px" }}>
-          Acertos: {right}
-        </Box>
-        <Box sx={{ color: "red", fontWeight: "bold", fontSize: "20px" }}>
-          Erros: {wrong}
-        </Box>
+      <Box sx={{ minWidth: "150px", marginTop: "30px" }}>
+        <CustomButton text="Sair" onClick={()=>{navigate("/login")}} />
       </Box>
       <Box
         sx={{
@@ -119,27 +93,30 @@ const Historico = () => {
               padding: "10px 40px",
               margin: "20px",
             }}
+            onClick={() => {
+              dispatch(SaveEmail({ email: item.email }));
+              navigate("/historico");
+            }}
           >
-            <Box sx={{ fontSize: "40px", color: "#58060A" }}>
-              {item.equation}
-            </Box>
+            <Box sx={{ fontSize: "40px", color: "#58060A" }}>{item.name}</Box>
             <Box
               sx={{
                 width: "100%",
                 display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
                 justifyContent: "space-around",
                 fontSize: "20px",
               }}
             >
-              <Box sx={{ color: "#58060A", textTransform: "capitalize" }}>
-                {item.difficulty == 1 ? "Facil" : "Dificil"}
-              </Box>
-              <Box>
-                {item.right ? (
-                  <Box sx={{ color: "green", fontWeight: "bold" }}>Correto</Box>
-                ) : (
-                  <Box sx={{ color: "red", fontWeight: "bold" }}>Incorreto</Box>
-                )}
+              <Box sx={{ display: "flex", gap: "15px" }}>
+                <Box sx={{ color: "green", fontWeight: "bold" }}>
+                  Acertos: {item.right}
+                </Box>
+
+                <Box sx={{ color: "red", fontWeight: "bold" }}>
+                  Erros: {item.wrong}
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -150,4 +127,4 @@ const Historico = () => {
   );
 };
 
-export default Historico;
+export default HistoricoAdm;

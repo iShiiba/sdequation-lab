@@ -33,7 +33,7 @@ const Header = ({ text }) => {
           onClick={() => navigate("/perfil")}
           sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
         >
-          Nome
+          Perfil
         </Box>
         <Box
           onClick={() => navigate("/exercicios")}
@@ -47,7 +47,7 @@ const Header = ({ text }) => {
         >
           Histórico
         </Box>
-        <Box sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}>Sair</Box>
+        <Box onClick={() => navigate("/login")} sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}>Sair</Box>
       </Box>
     </Box>
   );

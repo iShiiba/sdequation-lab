@@ -3,7 +3,7 @@ import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomButton from "./../../Components/CustomButton";
 import { useDispatch } from "react-redux";
-import { login } from "../../Redux/AuthSlice";
+import { Register } from "../../Redux/RegisterSlice";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -43,13 +43,13 @@ const Cadastro = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //   const authLogin = async () => {
-  //     const response = await dispatch(login({ email, password }));
-  //     if (!response.payload.failed) {
-  //       navigate("");
-  //     } else {
-  //     }
-  //   };
+    const confirmRegister = async () => {
+      const response = await dispatch(Register({ email, password, name }));
+      if (!response.payload?.failed) {
+        navigate("/login");
+      } else {
+      }
+    };
 
   return (
     <Box
@@ -129,18 +129,32 @@ const Cadastro = () => {
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
-                if (password.localeCompare(confirmPassword)) {
-                  console.log("senhas iguais");
-                } else {
-                  toast.error("As senhas devem ser idênticas");
-                  <ToastContainer />;
-                }
               }}
             />
           </Box>
         </Box>
-        <Box sx={{ width: "30%", marginTop: "30px" }}>
-          <CustomButton text="Cadastrar" /*onClick={authLogin}*/ />
+        <Box sx={{ display: "flex", justifyContent: "space-around", gap:"30px" }}>
+          <Box sx={{ minWidth: "50%", marginTop: "30px" }}>
+            <CustomButton
+              text="Voltar"
+              onClick={() => {
+                navigate("/login");
+              }}
+            />
+          </Box>
+        <Box sx={{ minWidth: "50%", marginTop: "30px" }}>
+          <CustomButton
+            text="Cadastrar"
+            onClick={() => {
+              if (!password.localeCompare(confirmPassword)) {
+                console.log("senhas iguais");
+                confirmRegister();
+              } else {
+                toast.error("As senhas devem ser idênticas");
+              }
+            }}
+          />
+        </Box>
         </Box>
       </Box>
       <Box sx={{ height: "100%", width: "100%", backgroundColor: "pink" }}>
@@ -150,6 +164,7 @@ const Cadastro = () => {
           alt="image"
         />
       </Box>
+      <ToastContainer />;
     </Box>
   );
 };

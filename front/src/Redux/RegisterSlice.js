@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const Register = createAsyncThunk(
-  "auth/login",
+  "register/user",
   async (userData, thunkAPI) => {
-    const response = await fetch("", {
+    const response = await fetch("http://localhost:3003/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const initialState = {
 };
 
 export const RegisterSlice = createSlice({
-  name: "auth",
+  name: "register",
   initialState,
   reducers: {
     loginUser: (state, { payload }) => {

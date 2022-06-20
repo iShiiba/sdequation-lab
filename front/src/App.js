@@ -1,12 +1,10 @@
 import Routes from "./Routes/appRoutes";
-import { ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{height:"100vh", width:"100vw"}}>
       <Routes />
-      <ToastContainer />;
     </div>
   );
 }
