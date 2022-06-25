@@ -17,6 +17,7 @@ const userRoute = require('./routes/users')
 const authRoute = require('./routes/auth')
 const exerciseRoute = require('./routes/exercises')
 const summaryRoute = require('./routes/summary')
+const equationRoute = require('./routes/equation')
 
 app.get("/doc", (req,res) => {
     res.sendFile(path.join(__dirname, '/index.html'))
@@ -26,6 +27,7 @@ app.use('/users',userRoute)
 app.use('/auth',authRoute)
 app.use('/exercises',exerciseRoute)
 app.use('/summary',summaryRoute)
+app.use('/equation',equationRoute)
 
 
 const port = process.env.PORT || 8080
