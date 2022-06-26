@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CustomButton from "./../../Components/CustomButton";
 import { styled } from "@mui/material/styles";
 import { Box, TextField } from "@mui/material";
-import { SaveEmail } from "../../Redux/AuthSlice";
+import { ExitAdmin, SaveEmail } from "../../Redux/AuthSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,6 +52,10 @@ const HistoricoAdm = () => {
       setList(lista);
     };
     getScore();
+
+    return () => {
+      dispatch(ExitAdmin());
+    }
   }, []);
 
   return (

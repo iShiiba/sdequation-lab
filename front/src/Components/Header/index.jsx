@@ -1,10 +1,13 @@
 import React, { useNa } from "react";
 import { Button, Box } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../Redux/AuthSlice";
 
 const Header = ({ text }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Box
       sx={{
@@ -37,17 +40,25 @@ const Header = ({ text }) => {
         </Box>
         <Box
           onClick={() => navigate("/exercicios")}
-          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}
+          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
         >
           Exercícios
         </Box>
         <Box
           onClick={() => navigate("/historico")}
-          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}
+          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
         >
           Histórico
         </Box>
-        <Box onClick={() => navigate("/login")} sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer"  }}>Sair</Box>
+        <Box
+          onClick={() => {
+            dispatch(logout());
+            navigate("/login");
+          }}
+          sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
+        >
+          Sair
+        </Box>
       </Box>
     </Box>
   );

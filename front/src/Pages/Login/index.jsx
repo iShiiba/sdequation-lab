@@ -3,7 +3,7 @@ import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CustomButton from "./../../Components/CustomButton";
 import { useDispatch } from "react-redux";
-import { login,SaveEmail } from "../../Redux/AuthSlice";
+import { EnterAdmin, login,SaveEmail } from "../../Redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
 
 const CssTextField = styled(TextField)({
@@ -43,8 +43,11 @@ const Login = () => {
     const response = await dispatch(login({ email, password }));
     await dispatch(SaveEmail({email}));
     if (!response.payload?.failed) {
-      if(email==="adm@adm.adm"&&password==="adm123456"){
+      if(email==="adm@adm.com"&&password==="adm123456"){
+        dispatch(EnterAdmin());
+        setTimeout(()=>{
         navigate("/historicoadm");
+        }, 1000)
       }else{
         navigate("/exercicios");
       }

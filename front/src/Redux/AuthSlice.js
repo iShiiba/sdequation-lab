@@ -27,6 +27,7 @@ const initialState = {
   token: "",
   name: "",
   email: "",
+  isAdmin: false,
 };
 
 export const AuthSlice = createSlice({
@@ -37,20 +38,25 @@ export const AuthSlice = createSlice({
       state.token = payload.token;
       state.name = payload.user.name;
       state.email = payload.user.email;
-
     },
     logout: (state) => {
-      state.token = "";
+      state.email = "";
     },
     SaveEmail: (state, { payload }) => {
       state.email = payload.email;
       state.name = payload.name;
     },
+    EnterAdmin: (state) => {
+      state.isAdmin = true;
+    },
+    ExitAdmin: (state) => {
+      state.isAdmin = false;
+    },
   },
 });
 
-
 // Action creators are generated for each case reducer function
-export const { loginUser, logout, SaveEmail } = AuthSlice.actions;
+export const { loginUser, logout, SaveEmail, EnterAdmin, ExitAdmin } =
+  AuthSlice.actions;
 
 export default AuthSlice.reducer;
