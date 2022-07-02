@@ -43,9 +43,18 @@ const HistoricoAdm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const token = window.localStorage.getItem("token");
+
+
   useEffect(() => {
     const getScore = async () => {
-      const response = await fetch(`http://localhost:3003/summary`);
+      const response = await fetch(`http://localhost:3003/summary?admCode=2020191918181717161615151414131312121111`,
+      {
+        method: "GET",
+        headers: {
+          "token": token
+        },
+      });
       const data = await response.json();
       const lista = data.summaryList;
       console.log(lista);

@@ -41,11 +41,19 @@ const Historico = () => {
   const [list, setList] = useState([]);
 
   const getEmail = useSelector((state) => state.auth.email);
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
+    
     const getData = async () => {
       const response = await fetch(
-        `http://localhost:3003/exercises/${getEmail}`
+        `http://localhost:3003/exercises/${getEmail}`,
+        {
+          method: "GET",
+          headers: {
+            "token": token,
+          },
+        }
       );
       const data = await response.json();
       console.log(data);
@@ -53,7 +61,13 @@ const Historico = () => {
     };
 
     const getScore = async () => {
-      const response = await fetch(`http://localhost:3003/summary/${getEmail}`);
+      const response = await fetch(`http://localhost:3003/summary/${getEmail}`,
+      {
+        method: "GET",
+        headers: {
+          "token": token,
+        },
+      });
       const data = await response.json();
       const userRight = data.summaryInfo.right;
       const userWrong = data.summaryInfo.wrong;

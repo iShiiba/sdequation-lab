@@ -5,7 +5,9 @@ export const login = createAsyncThunk(
   async (userData, thunkAPI) => {
     const response = await fetch("http://localhost:3003/auth", {
       method: "POST",
+      mode: 'cors',
       headers: {
+        'Access-Control-Allow-Origin':'*',
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ...userData }),
@@ -16,8 +18,8 @@ export const login = createAsyncThunk(
     if (!response.ok) {
       return { data, failed: true };
     }
-
-    thunkAPI.dispatch(loginUser(data));
+    window.localStorage.setItem("token", data.data)
+    thunkAPI.dispatch(loginUser({token: data.data}));
 
     return data;
   }
@@ -35,12 +37,13 @@ export const AuthSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, { payload }) => {
+
       state.token = payload.token;
-      state.name = payload.user.name;
-      state.email = payload.user.email;
     },
     logout: (state) => {
       state.email = "";
+      state.token = "";
+      window.localStorage.removeItem("token");
     },
     SaveEmail: (state, { payload }) => {
       state.email = payload.email;

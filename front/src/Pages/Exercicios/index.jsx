@@ -41,11 +41,12 @@ const CssTextField = styled(TextField)({
   },
 });
 
-const sendData = async (data) => {
+const sendData = async (data, token) => {
   const response = await fetch("http://localhost:3003/exercises", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "token": token,
     },
     body: JSON.stringify({ ...data }),
   });
@@ -68,7 +69,8 @@ const Exercicios = () => {
   const [value, setValue] = useState(1);
 
   const email = useSelector(state => state.auth.email);
-
+  const token = window.localStorage.getItem("token");
+  
   useEffect(() => {
     if(value === 1){
       setA(1);
@@ -125,7 +127,7 @@ const Exercicios = () => {
       setResp2("");
       setCount(count + 1);
     }
-    sendData({ equation, difficulty: value, right: verify, email });
+    sendData({ equation, difficulty: value, right: verify, email }, token);
   };
 
   const handleChange = () => {

@@ -33,11 +33,12 @@ const CssTextField = styled(TextField)({
   },
 });
 
-const sendData = async (data, setCount) => {
+const sendData = async (data, setCount, token) => {
   const response = await fetch("http://localhost:3003/users", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "token": token,
     },
     body: JSON.stringify({ ...data }),
   });
@@ -58,6 +59,7 @@ const Perfil = () => {
   const [count, setCount] = useState(1);
 
   const getEmail = useSelector((state) => state.auth.email);
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     const getData = async () => {
@@ -139,7 +141,7 @@ const Perfil = () => {
               ) {
                 toast.error("Preencha os campos!");
               } else {
-                sendData({ name, email, password }, setCount);                
+                sendData({ name, email, password }, setCount, token);                
               }
             }}
           />

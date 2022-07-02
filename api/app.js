@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const connection = require("./db")
 const router = express.Router();
-const path = require('path')
+const path = require('path');
 
 //database connection
 connection();
@@ -26,6 +26,7 @@ app.use('/users',userRoute)
 app.use('/auth',authRoute)
 app.use('/exercises',exerciseRoute)
 app.use('/summary',summaryRoute)
+
 
 
 const port = process.env.PORT || 8080

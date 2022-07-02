@@ -51,9 +51,12 @@ const Header = ({ text }) => {
           Histórico
         </Box>
         <Box
-          onClick={() => {
-            dispatch(logout());
-            navigate("/login");
+          onClick={async () => {
+            const response = await fetch("http://localhost:3003/auth/logout");
+            if (response.ok) {
+              dispatch(logout());
+              navigate("/login");
+            }
           }}
           sx={{ color: "#58060A", fontSize: "24px", cursor: "pointer" }}
         >
